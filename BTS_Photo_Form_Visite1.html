@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BTS Photographie — Visite 1</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#F0F4F8;color:#222;font-size:14px;}
+.header{background:#1A6FA8;color:white;padding:24px 32px;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.header h1{font-size:22px;font-weight:700;margin-bottom:6px;}
+.header p{font-size:14px;opacity:.9;}
+.badge{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:8px;}
+.container{max-width:900px;margin:24px auto;padding:0 16px;}
+.info-card{background:white;border-radius:8px;padding:20px 24px;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,.1);display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.info-card h3{grid-column:1/-1;color:#1A6FA8;font-size:15px;margin-bottom:8px;border-bottom:2px solid #1A6FA833;padding-bottom:6px;}
+.info-field{display:flex;flex-direction:column;gap:4px;}
+.info-field label{font-size:12px;font-weight:600;color:#666;}
+.info-field input{border:1px solid #DDD;border-radius:4px;padding:8px 10px;font-size:14px;}
+.info-field input:focus{outline:none;border-color:#1A6FA8;box-shadow:0 0 0 2px #1A6FA833;}
+.section-title{font-size:16px;font-weight:700;color:#1A6FA8;padding:12px 0 8px;border-bottom:2px solid #1A6FA8;margin:24px 0 16px;}
+.question-card{background:white;border-radius:8px;padding:20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.08);}
+.q-header{padding:12px 14px;border-radius:6px;margin-bottom:12px;display:flex;gap:12px;align-items:flex-start;}
+.q-num{font-size:18px;font-weight:800;white-space:nowrap;min-width:36px;}
+.q-text{font-size:14px;font-weight:600;line-height:1.5;}
+.q-comp{font-size:12px;color:#666;margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.comp-badge{background:#1A6FA811;color:#1A6FA8;border-radius:12px;padding:3px 10px;font-weight:600;border:1px solid #1A6FA833;}
+.comp-detail{color:#999;}
+.q-criteria{font-size:13px;color:#444;background:#F8F9FA;padding:10px 14px;border-radius:6px;margin-bottom:12px;border-left:3px solid #DDD;line-height:1.5;}
+.v1-options{display:flex;flex-direction:column;gap:8px;margin:12px 0;}
+.opt{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:6px;cursor:pointer;transition:background .15s;font-size:14px;}
+.opt:hover{background:#F0F4F8;}
+.opt input{width:16px;height:16px;cursor:pointer;}
+.opt-yes{background:#EAFAF1;}
+.opt-partial{background:#FEF9E7;}
+.opt-partial2{background:#FEF5EC;}
+.opt-no{background:#FDEDEC;}
+.eval-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;}
+.eval-table th{background:#2E4057;color:white;padding:8px 10px;text-align:center;font-size:12px;}
+.eval-table td{padding:8px 10px;border-bottom:1px solid #EEE;text-align:center;}
+.eval-table td:first-child{text-align:left;font-weight:500;background:#F8F9FA;width:220px;}
+.eval-table label{display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;padding:6px;border-radius:4px;transition:background .1s;}
+.eval-table label:hover{background:#EEF2FF;}
+.eval-table input[type=radio]{width:16px;height:16px;cursor:pointer;}
+.q-notes{margin-top:12px;}
+.q-notes label{font-size:12px;font-weight:600;color:#666;display:block;margin-bottom:4px;}
+.q-notes textarea{width:100%;border:1px solid #DDD;border-radius:4px;padding:8px 10px;font-size:13px;resize:vertical;font-family:inherit;}
+.q-notes textarea:focus{outline:none;border-color:#1A6FA8;box-shadow:0 0 0 2px #1A6FA822;}
+.synth-card{background:white;border-radius:8px;padding:24px;margin-top:24px;box-shadow:0 2px 8px rgba(0,0,0,.1);border-top:4px solid #4A235A;}
+.synth-card h2{margin-bottom:20px;}
+.coverage-table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:13px;}
+.coverage-table th{background:#2C3E50;color:white;padding:8px 12px;text-align:left;}
+.coverage-table td{padding:8px 12px;border-bottom:1px solid #EEE;vertical-align:top;}
+.coverage-table td:first-child{font-weight:600;width:280px;}
+.coverage-table select{border:1px solid #DDD;border-radius:4px;padding:5px 8px;font-size:13px;width:100%;}
+.coverage-table textarea{width:100%;border:1px solid #DDD;border-radius:4px;padding:5px 8px;font-size:12px;resize:vertical;}
+.score-table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:13px;}
+.score-table th{background:#2E4057;color:white;padding:8px 10px;text-align:center;font-size:12px;}
+.score-table td{padding:8px 10px;border-bottom:1px solid #EEE;text-align:center;}
+.score-table td:nth-child(2){text-align:left;font-size:12px;}
+.score-cell{font-size:16px;font-weight:700;}
+.avg-cell{background:#F5EEF8;}
+.synth-text{display:flex;flex-direction:column;gap:12px;margin-top:16px;}
+.synth-text label{font-size:13px;font-weight:700;color:#4A235A;}
+.synth-text textarea{border:1px solid #DDD;border-radius:4px;padding:8px 12px;font-size:13px;resize:vertical;font-family:inherit;}
+.sig-section{background:white;border-radius:8px;padding:20px;margin-top:20px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.sig-block label{font-size:12px;font-weight:700;color:#4A235A;display:block;margin-bottom:8px;}
+.sig-line{border-bottom:2px solid #DDD;height:40px;margin-top:8px;}
+.print-btn{display:block;width:fit-content;margin:24px auto;background:#1A6FA8;color:white;border:none;padding:14px 32px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2);}
+.print-btn:hover{opacity:.9;}
+.scale-legend{background:white;border-radius:8px;padding:14px 20px;margin-bottom:20px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;box-shadow:0 1px 3px rgba(0,0,0,.08);}
+.scale-legend span{font-size:13px;font-weight:600;}
+@media print{body{background:white;}.print-btn{display:none;}.header{-webkit-print-color-adjust:exact;print-color-adjust:exact;}.question-card,.synth-card,.info-card,.sig-section{box-shadow:none;border:1px solid #DDD;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>BTS Photographie — Visite 1</h1>
+  <p>~45 jours après le début — Exploration et diagnostic d'environnement</p>
+  <span class="badge">Référentiel officiel — Outil CRE / MA / Référent tuteur CFA</span>
+</div>
+<div class="container">
+  <div class="info-card">
+    <h3>Informations de visite</h3>
+    <div class="info-field"><label>Date de visite</label><input type="date" name="date_visite"></div>
+    <div class="info-field"><label>Prénom et Nom de l'apprenti·e</label><input type="text" name="apprenti" placeholder="Prénom NOM"></div>
+    <div class="info-field"><label>Entreprise d'accueil</label><input type="text" name="entreprise" placeholder="Nom de l'entreprise"></div>
+    <div class="info-field"><label>Maître d'apprentissage</label><input type="text" name="ma" placeholder="Prénom NOM"></div>
+    <div class="info-field"><label>Référent tuteur CFA</label><input type="text" name="cfa_ref" placeholder="Prénom NOM"></div>
+    <div class="info-field"><label>Année de formation</label><input type="text" name="annee" placeholder="ex: 2024-2026"></div>
+  </div>
+  
+  <div class="section-title">Questions — Visite 1</div>
+  
+    <div class="question-card" id="qcard-1">
+      <div class="q-header" style="background:#1A6FA822; border-left:4px solid #1A6FA8">
+        <span class="q-num" style="color:#1A6FA8">Q1</span>
+        <span class="q-text">Quelles sont les principales missions confiées à l'apprenti·e depuis son arrivée ? (Demander une description concrète des activités réalisées.)</span>
+      </div>
+      <div class="q-comp">
+        <span class="comp-badge">📋 C1, C3, C4</span>
+        <span class="comp-detail">CP1.1 Communiquer · CP3.1 Analyser la demande · CP4.6 Réaliser les PdV</span>
+      </div>
+      <div class="q-criteria">
+        <strong>Critères :</strong> Les missions décrites correspondent à des activités photographiques identifiables dans le référentiel. L'apprenti·e peut nommer ses activités et les rattacher au travail de photographe professionnel. Les tâches couvrent les domaines de la prise de vue et de la communication.
+      </div>
+      
+      <div class="v1-options">
+        <label class="opt opt-yes"><input type="radio" name="q1" value="oui"> ✅  Oui — activité régulière</label>
+        <label class="opt opt-partial"><input type="radio" name="q1" value="partiel"> ⚠️  Oui — activité ponctuelle</label>
+        <label class="opt opt-partial2"><input type="radio" name="q1" value="partiel2"> 🔶  Partiellement</label>
+        <label class="opt opt-no"><input type="radio" name="q1" value="non"> ❌  Non / Non prévu</label>
+      </div>
+      <div class="q-notes">
+        <label>💬 Commentaires / Observations :</label>
+        <textarea name="notes_1" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
+      </div>
+    </div>
+    <div class="question-card" id="qcard-2">
+      <div class="q-header" style="background:#1A6FA822; border-left:4px solid #1A6FA8">
+        <span class="q-num" style="color:#1A6FA8">Q2</span>
+        <span class="q-text">Quel est le domaine de spécialisation de l'entreprise (studio, reportage, publicité, presse, mariage…) ? Quelles activités photographiques sont prévues pour l'apprenti·e sur les deux ans ?</span>
+      </div>
+      <div class="q-comp">
+        <span class="comp-badge">📋 C3, C4, C5</span>
+        <span class="comp-detail">CP3.2 Préparer la séance · CP4.1 Installer · CP4.6 Réaliser · CP5.3 Trier les images</span>
+      </div>
+      <div class="q-criteria">
+        <strong>Critères :</strong> Le domaine d'activité est clairement identifié. Un programme ou une progression des missions est esquissé. Les activités prévues couvrent différents types de prises de vue et de traitements d'images.
+      </div>
+      
+      <div class="v1-options">
+        <label class="opt opt-yes"><input type="radio" name="q2" value="oui"> ✅  Oui — activité régulière</label>
+        <label class="opt opt-partial"><input type="radio" name="q2" value="partiel"> ⚠️  Oui — activité ponctuelle</label>
+        <label class="opt opt-partial2"><input type="radio" name="q2" value="partiel2"> 🔶  Partiellement</label>
+        <label class="opt opt-no"><input type="radio" name="q2" value="non"> ❌  Non / Non prévu</label>
+      </div>
+      <div class="q-notes">
+        <label>💬 Commentaires / Observations :</label>
+        <textarea name="notes_2" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
+      </div>
+    </div>
+    <div class="question-card" id="qcard-3">
+      <div class="q-header" style="background:#1A6FA822; border-left:4px solid #1A6FA8">
+        <span class="q-num" style="color:#1A6FA8">Q3</span>
+        <span class="q-text">L'entreprise permet-elle à l'apprenti·e de communiquer avec des clients ou des prestataires ? Dispose-t-il/elle d'outils de communication professionnelle (e-mails, courriers, argumentaires) ?</span>
+      </div>
+      <div class="q-comp">
+        <span class="comp-badge">📋 C1</span>
+        <span class="comp-detail">CP1.1 Communiquer et négocier · CP1.2 Collecter l'information · CP1.3 Créer des documents professionnels</span>
+      </div>
+      <div class="q-criteria">
+        <strong>Critères :</strong> Des outils de communication professionnelle sont disponibles et utilisables. L'apprenti·e sera ou est amené·e à rédiger des e-mails professionnels, courriers ou comptes-rendus.
+      </div>
+      
+      <div class="v1-options">
+        <label class="opt opt-yes"><input type="radio" name="q3" value="oui"> ✅  Oui — activité régulière</label>
+        <label class="opt opt-partial"><input type="radio" name="q3" value="partiel"> ⚠️  Oui — activité ponctuelle</label>
+        <label class="opt opt-partial2"><input type="radio" name="q3" value="partiel2"> 🔶  Partiellement</label>
+        <label class="opt opt-no"><input type="radio" name="q3" value="non"> ❌  Non / Non prévu</label>
+      </div>
+      <div class="q-notes">
+        <label>💬 Commentaires / Observations :</label>
+        <textarea name="notes_3" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
+      </div>
+    </div>
+    <div class="question-card" id="qcard-4">
+      <div class="q-header" style="background:#1A6FA822; border-left:4px solid #1A6FA8">
+        <span class="q-num" style="color:#1A6FA8">Q4</span>
+        <span class="q-text">L'entreprise associe-t-elle (ou associera-t-elle) l'apprenti·e à l'organisation des séances de prise de vue (brief client, choix du matériel, stylisme, autorisations, rédaction de devis) ?</span>
+      </div>
+      <div class="q-comp">
+        <span class="comp-badge">📋 C3, C7</span>
+        <span class="comp-detail">CP3.1 Analyser la demande · CP3.2 Préparer la séance · CP3.3 Rédiger un devis · CP3.4 Choisir le matériel · CP7.1 Autorisations</span>
+      </div>
+      <div class="q-criteria">
+        <strong>Critères :</strong> L'entreprise prévoit d'impliquer l'apprenti·e dans la préparation des missions (briefing, préparation matériel, documents contractuels). Des modèles de devis et d'autorisations existent dans la structure.
+      </div>
+      
+      <div class="v1-options">
+        <label class="opt opt-yes"><input type="radio" name="q4" value="oui"> ✅  Oui — activité régulière</label>
+        <label class="opt opt-partial"><input type="radio" name="q4" value="partiel"> ⚠️  Oui — activité ponctuelle</label>
+        <label class="opt opt-partial2"><input type="radio" name="q4" value="partiel2"> 🔶  Partiellement</label>
+        <label class="opt opt-no"><input type="radio" name="q4" value="non"> ❌  Non / Non prévu</label>
+      </div>
+      <div class="q-notes">
+        <label>💬 Commentaires / Observations :</label>
+        <textarea name="notes_4" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
+      </div>
+    </div>
+    <div class="question-card" id="qcard-5">
+      <div class="q-header" style="background:#1A6FA822; border-left:4px solid #1A6FA8">
+        <span class="q-num" style="color:#1A6FA8">Q5</span>
+        <span class="q-text">L'apprenti·e a-t-il/elle accès aux équipements de post-production (logiciels de traitement, scanners, imprimantes) ? Quelles tâches de traitement d'images lui seront confiées ?</span>
+      </div>
+      <div class="q-comp">
+        <span class="comp-badge">📋 C5, C6</span>
+        <span class="comp-detail">CP5.1-CP5.8 Traitement images · CP6.1 Choisir matériels/logiciels</span>
+      </div>
+      <div class="q-criteria">
+        <strong>Critères :</strong> Des logiciels professionnels sont présents et accessibles (ex. Lightroom, Photoshop, Capture One). Des tâches de post-production seront confiées à l'apprenti·e. La structure dispose d'un flux numérique organisé.
+      </div>
+      
+      <div class="v1-options">
+        <label class="opt opt-yes"><input type="radio" name="q5" value="oui"> ✅  Oui — activité régulière</label>
+        <label class="opt opt-partial"><input type="radio" name="q5" value="partiel"> ⚠️  Oui — activité ponctuelle</label>
+        <label class="opt opt-partial2"><input type="radio" name="q5" value="partiel2"> 🔶  Partiellement</label>
+        <label class="opt opt-no"><input type="radio" name="q5" value="non"> ❌  Non / Non prévu</label>
+      </div>
+      <div class="q-notes">
+        <label>💬 Commentaires / Observations :</label>
+        <textarea name="notes_5" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
+      </div>
+    </div>
+    <div class="question-card" id="qcard-6">
+      <div class="q-header" style="background:#1A6FA822; border-left:4px solid #1A6FA8">
+        <span class="q-num" style="color:#1A6FA8">Q6</span>
+        <span class="q-text">Existe-t-il dans l'entreprise une organisation de la photothèque ou des archives (numériques et/ou argentiques) ? L'apprenti·e y sera-t-il/elle associé·e ?</span>
+      </div>
+      <div class="q-comp">
+        <span class="comp-badge">📋 C6</span>
+        <span class="comp-detail">CP6.3 Stockage sécurisé · CP6.4 Indexation · CP6.5 Gérer la photothèque · CP6.6 Archiver</span>
+      </div>
+      <div class="q-criteria">
+        <strong>Critères :</strong> Un système d'archivage est décrit (logiciel, arborescence, conventions de nommage). L'accès aux archives est organisé et sécurisé. Des originaux argentiques sont présents ou accessibles.
+      </div>
+      
+      <div class="v1-options">
+        <label class="opt opt-yes"><input type="radio" name="q6" value="oui"> ✅  Oui — activité régulière</label>
+        <label class="opt opt-partial"><input type="radio" name="q6" value="partiel"> ⚠️  Oui — activité ponctuelle</label>
+        <label class="opt opt-partial2"><input type="radio" name="q6" value="partiel2"> 🔶  Partiellement</label>
+        <label class="opt opt-no"><input type="radio" name="q6" value="non"> ❌  Non / Non prévu</label>
+      </div>
+      <div class="q-notes">
+        <label>💬 Commentaires / Observations :</label>
+        <textarea name="notes_6" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
+      </div>
+    </div>
+    <div class="question-card" id="qcard-7">
+      <div class="q-header" style="background:#1A6FA822; border-left:4px solid #1A6FA8">
+        <span class="q-num" style="color:#1A6FA8">Q7</span>
+        <span class="q-text">L'entreprise associera-t-elle l'apprenti·e aux aspects juridiques et commerciaux de l'activité (devis, cessions de droits, contrats, facturation, droits d'auteur) ?</span>
+      </div>
+      <div class="q-comp">
+        <span class="comp-badge">📋 C7</span>
+        <span class="comp-detail">CP7.3 Droits des personnes · CP7.4 Protection juridique · CP7.5 Cadre juridique · CP7.6 Gestion admin./comptable · CP7.7 Commercialisation</span>
+      </div>
+      <div class="q-criteria">
+        <strong>Critères :</strong> Des modèles de documents juridiques et commerciaux existent dans la structure. L'apprenti·e aura accès à ces pratiques. Des autorisations de prise de vue et des notes de cession de droits sont utilisées.
+      </div>
+      
+      <div class="v1-options">
+        <label class="opt opt-yes"><input type="radio" name="q7" value="oui"> ✅  Oui — activité régulière</label>
+        <label class="opt opt-partial"><input type="radio" name="q7" value="partiel"> ⚠️  Oui — activité ponctuelle</label>
+        <label class="opt opt-partial2"><input type="radio" name="q7" value="partiel2"> 🔶  Partiellement</label>
+        <label class="opt opt-no"><input type="radio" name="q7" value="non"> ❌  Non / Non prévu</label>
+      </div>
+      <div class="q-notes">
+        <label>💬 Commentaires / Observations :</label>
+        <textarea name="notes_7" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
+      </div>
+    </div>
+    <div class="question-card" id="qcard-8">
+      <div class="q-header" style="background:#1A6FA822; border-left:4px solid #1A6FA8">
+        <span class="q-num" style="color:#1A6FA8">Q8</span>
+        <span class="q-text">L'entreprise dispose-t-elle de ressources de veille technologique (revues, salons, sites fabricants) ? L'apprenti·e sera-t-il/elle impliqué·e dans des mises à jour ou acquisitions d'équipements ?</span>
+      </div>
+      <div class="q-comp">
+        <span class="comp-badge">📋 C8</span>
+        <span class="comp-detail">CP8.1 S'informer · CP8.2 Analyser · CP8.5 Choisir le matériel · CP8.6 Mettre en service</span>
+      </div>
+      <div class="q-criteria">
+        <strong>Critères :</strong> Des ressources de veille existent et sont accessibles. Des évolutions technologiques récentes sont identifiables dans la structure. L'apprenti·e sera associé·e à des choix ou mises en service d'équipements.
+      </div>
+      
+      <div class="v1-options">
+        <label class="opt opt-yes"><input type="radio" name="q8" value="oui"> ✅  Oui — activité régulière</label>
+        <label class="opt opt-partial"><input type="radio" name="q8" value="partiel"> ⚠️  Oui — activité ponctuelle</label>
+        <label class="opt opt-partial2"><input type="radio" name="q8" value="partiel2"> 🔶  Partiellement</label>
+        <label class="opt opt-no"><input type="radio" name="q8" value="non"> ❌  Non / Non prévu</label>
+      </div>
+      <div class="q-notes">
+        <label>💬 Commentaires / Observations :</label>
+        <textarea name="notes_8" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
+      </div>
+    </div>
+  
+    <div class="synth-card">
+      <h2 style="color:#1A6FA8">📊 Bilan de couverture du référentiel</h2>
+      <table class="coverage-table">
+        <thead><tr><th>Bloc de compétence</th><th>Couverture</th><th>Actions CFA recommandées</th></tr></thead>
+        <tbody>
+          
+          <tr>
+            <td><strong>C1 — Communiquer et s'informer</strong></td>
+            <td>
+              <select name="cov_C1">
+                <option value="">— sélectionner —</option>
+                <option value="oui">✅ Oui — activité régulière</option>
+                <option value="partiel">⚠️ Ponctuelle</option>
+                <option value="peu">🔶 Partiellement</option>
+                <option value="non">❌ Non / Non prévu</option>
+              </select>
+            </td>
+            <td><textarea rows="1" placeholder="Actions à prévoir en CFA..."></textarea></td>
+          </tr>
+          <tr>
+            <td><strong>C2 — Lire et interpréter les images</strong></td>
+            <td>
+              <select name="cov_C2">
+                <option value="">— sélectionner —</option>
+                <option value="oui">✅ Oui — activité régulière</option>
+                <option value="partiel">⚠️ Ponctuelle</option>
+                <option value="peu">🔶 Partiellement</option>
+                <option value="non">❌ Non / Non prévu</option>
+              </select>
+            </td>
+            <td><textarea rows="1" placeholder="Actions à prévoir en CFA..."></textarea></td>
+          </tr>
+          <tr>
+            <td><strong>C3 — Choisir et organiser les moyens</strong></td>
+            <td>
+              <select name="cov_C3">
+                <option value="">— sélectionner —</option>
+                <option value="oui">✅ Oui — activité régulière</option>
+                <option value="partiel">⚠️ Ponctuelle</option>
+                <option value="peu">🔶 Partiellement</option>
+                <option value="non">❌ Non / Non prévu</option>
+              </select>
+            </td>
+            <td><textarea rows="1" placeholder="Actions à prévoir en CFA..."></textarea></td>
+          </tr>
+          <tr>
+            <td><strong>C4 — Réaliser des prises de vues</strong></td>
+            <td>
+              <select name="cov_C4">
+                <option value="">— sélectionner —</option>
+                <option value="oui">✅ Oui — activité régulière</option>
+                <option value="partiel">⚠️ Ponctuelle</option>
+                <option value="peu">🔶 Partiellement</option>
+                <option value="non">❌ Non / Non prévu</option>
+              </select>
+            </td>
+            <td><textarea rows="1" placeholder="Actions à prévoir en CFA..."></textarea></td>
+          </tr>
+          <tr>
+            <td><strong>C5 — Traiter les images</strong></td>
+            <td>
+              <select name="cov_C5">
+                <option value="">— sélectionner —</option>
+                <option value="oui">✅ Oui — activité régulière</option>
+                <option value="partiel">⚠️ Ponctuelle</option>
+                <option value="peu">🔶 Partiellement</option>
+                <option value="non">❌ Non / Non prévu</option>
+              </select>
+            </td>
+            <td><textarea rows="1" placeholder="Actions à prévoir en CFA..."></textarea></td>
+          </tr>
+          <tr>
+            <td><strong>C6 — Gérer, conserver et archiver</strong></td>
+            <td>
+              <select name="cov_C6">
+                <option value="">— sélectionner —</option>
+                <option value="oui">✅ Oui — activité régulière</option>
+                <option value="partiel">⚠️ Ponctuelle</option>
+                <option value="peu">🔶 Partiellement</option>
+                <option value="non">❌ Non / Non prévu</option>
+              </select>
+            </td>
+            <td><textarea rows="1" placeholder="Actions à prévoir en CFA..."></textarea></td>
+          </tr>
+          <tr>
+            <td><strong>C7 — Diffuser, céder, aspects juridiques</strong></td>
+            <td>
+              <select name="cov_C7">
+                <option value="">— sélectionner —</option>
+                <option value="oui">✅ Oui — activité régulière</option>
+                <option value="partiel">⚠️ Ponctuelle</option>
+                <option value="peu">🔶 Partiellement</option>
+                <option value="non">❌ Non / Non prévu</option>
+              </select>
+            </td>
+            <td><textarea rows="1" placeholder="Actions à prévoir en CFA..."></textarea></td>
+          </tr>
+          <tr>
+            <td><strong>C8 — Veille technologique</strong></td>
+            <td>
+              <select name="cov_C8">
+                <option value="">— sélectionner —</option>
+                <option value="oui">✅ Oui — activité régulière</option>
+                <option value="partiel">⚠️ Ponctuelle</option>
+                <option value="peu">🔶 Partiellement</option>
+                <option value="non">❌ Non / Non prévu</option>
+              </select>
+            </td>
+            <td><textarea rows="1" placeholder="Actions à prévoir en CFA..."></textarea></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="synth-text">
+        <label><strong>Points forts identifiés :</strong></label>
+        <textarea rows="3" name="strengths" placeholder="Compétences bien couvertes par l'entreprise..."></textarea>
+        <label><strong>Points de vigilance :</strong></label>
+        <textarea rows="3" name="risks" placeholder="Compétences peu ou non couvertes, nécessitant une attention particulière du CFA..."></textarea>
+        <label><strong>Décisions prises / Actions à mettre en œuvre :</strong></label>
+        <textarea rows="3" name="actions" placeholder="Plan de formation adapté, missions à mettre en place..."></textarea>
+      </div>
+    </div>
+  <div class="sig-section">
+    <div class="sig-block"><label>Signature Apprenti·e</label><div class="sig-line"></div></div>
+    <div class="sig-block"><label>Signature Maître d'apprentissage</label><div class="sig-line"></div></div>
+    <div class="sig-block"><label>Signature Référent tuteur CFA</label><div class="sig-line"></div></div>
+  </div>
+  <button class="print-btn" onclick="window.print()">🖨️ Imprimer / Enregistrer en PDF</button>
+</div>
+<script>
+function updateScores(){}
+</script>
+</body>
+</html>
