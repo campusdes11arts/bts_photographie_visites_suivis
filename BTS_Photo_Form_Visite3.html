@@ -82,12 +82,16 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#F0F4F8;color:#222;font-
 <div class="container">
   <div class="info-card">
     <h3>Informations de visite</h3>
-    <div class="info-field"><label>Date de visite</label><input type="date" name="date_visite"></div>
-    <div class="info-field"><label>Prénom et Nom de l'apprenti·e</label><input type="text" name="apprenti" placeholder="Prénom NOM"></div>
-    <div class="info-field"><label>Entreprise d'accueil</label><input type="text" name="entreprise" placeholder="Nom de l'entreprise"></div>
-    <div class="info-field"><label>Maître d'apprentissage</label><input type="text" name="ma" placeholder="Prénom NOM"></div>
-    <div class="info-field"><label>Référent tuteur CFA</label><input type="text" name="cfa_ref" placeholder="Prénom NOM"></div>
-    <div class="info-field"><label>Année de formation</label><input type="text" name="annee" placeholder="ex: 2024-2026"></div>
+    <div class="info-field"><label>Date de visite</label><input type="date" id="date_visite"></div>
+    <div class="info-field"><label>Prénom et Nom de l'apprenti·e</label><input type="text" id="apprenti" placeholder="Prénom NOM"></div>
+    <div class="info-field"><label>Entreprise d'accueil</label><input type="text" id="entreprise" placeholder="Nom de l'entreprise"></div>
+    <div class="info-field"><label>Maître d'apprentissage</label><input type="text" id="ma" placeholder="Prénom NOM"></div>
+    <div class="info-field"><label>Référent tuteur CFA</label><input type="text" id="cfa_ref" placeholder="Prénom NOM"></div>
+    <div class="info-field"><label>Année de formation</label><input type="text" id="annee" placeholder="ex: 2024-2026"></div>
+    <h4 style="grid-column:1/-1;color:#555;font-size:13px;font-weight:600;margin-top:8px;padding-top:8px;border-top:1px dashed #DDD;">📧 Adresses e-mail (pour envoi de la copie)</h4>
+    <div class="info-field"><label>E-mail de l'apprenti·e</label><input type="email" id="email_apprenti" placeholder="prenom.nom@etudiant.fr" style="border-color:#B7770D55;"></div>
+    <div class="info-field"><label>E-mail du maître d'apprentissage</label><input type="email" id="email_ma" placeholder="contact@entreprise.fr" style="border-color:#B7770D55;"></div>
+    <div class="info-field" style="grid-column:1/-1"><label>E-mail du responsable CFA</label><input type="email" id="email_cfa" placeholder="responsable@sup-photo.fr" style="border-color:#B7770D55;"></div>
   </div>
   <div class="scale-legend"><strong>Échelle d'évaluation :</strong><span style="color:#C0392B">1 = Non acquis</span><span style="color:#E67E22">2 = En cours d'acquisition</span><span style="color:#27AE60">3 = Acquis</span><span style="color:#1A5276">4 = Maîtrise</span></div>
   <div class="section-title">Questions — Visite 3</div>
@@ -136,7 +140,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#F0F4F8;color:#222;font-
       </table>
       <div class="q-notes">
         <label>💬 Commentaires / Observations :</label>
-        <textarea name="notes_15" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
+        <textarea id="notes_15" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
       </div>
     </div>
     <div class="question-card" id="qcard-16">
@@ -183,7 +187,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#F0F4F8;color:#222;font-
       </table>
       <div class="q-notes">
         <label>💬 Commentaires / Observations :</label>
-        <textarea name="notes_16" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
+        <textarea id="notes_16" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
       </div>
     </div>
     <div class="question-card" id="qcard-17">
@@ -230,7 +234,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#F0F4F8;color:#222;font-
       </table>
       <div class="q-notes">
         <label>💬 Commentaires / Observations :</label>
-        <textarea name="notes_17" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
+        <textarea id="notes_17" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
       </div>
     </div>
     <div class="question-card" id="qcard-18">
@@ -277,7 +281,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#F0F4F8;color:#222;font-
       </table>
       <div class="q-notes">
         <label>💬 Commentaires / Observations :</label>
-        <textarea name="notes_18" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
+        <textarea id="notes_18" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
       </div>
     </div>
     <div class="question-card" id="qcard-19">
@@ -324,7 +328,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#F0F4F8;color:#222;font-
       </table>
       <div class="q-notes">
         <label>💬 Commentaires / Observations :</label>
-        <textarea name="notes_19" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
+        <textarea id="notes_19" rows="2" placeholder="Observations, exemples concrets, preuves notées..."></textarea>
       </div>
     </div>
   
@@ -399,13 +403,13 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#F0F4F8;color:#222;font-
       </div>
       <div class="synth-text">
         <label><strong>✅ Compétences bien maîtrisées (score ≥ 3) :</strong></label>
-        <textarea rows="3" name="strengths" placeholder="Identifiées automatiquement ci-dessus — compléter avec observations..."></textarea>
+        <textarea rows="3" id="strengths" placeholder="Identifiées automatiquement ci-dessus — compléter avec observations..."></textarea>
         <label><strong>⚠️ Compétences insuffisantes ou à risque (score ≤ 2) :</strong></label>
-        <textarea rows="3" name="risks" placeholder="Identifiées automatiquement ci-dessus — décrire les actions correctives..."></textarea>
+        <textarea rows="3" id="risks" placeholder="Identifiées automatiquement ci-dessus — décrire les actions correctives..."></textarea>
         <label><strong>🏫 Ajustements pédagogiques recommandés au CFA :</strong></label>
-        <textarea rows="3" name="cfa_actions" placeholder="Modules, exercices, séances à prévoir..."></textarea>
+        <textarea rows="3" id="cfa_actions" placeholder="Modules, exercices, séances à prévoir..."></textarea>
         <label><strong>📝 Observations particulières :</strong></label>
-        <textarea rows="3" name="notes_synth" placeholder="Contexte entreprise, situations à signaler..."></textarea>
+        <textarea rows="3" id="notes_synth" placeholder="Contexte entreprise, situations à signaler..."></textarea>
       </div>
     </div>
   <div class="sig-section">
@@ -413,13 +417,37 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#F0F4F8;color:#222;font-
     <div class="sig-block"><label>Signature Maître d'apprentissage</label><div class="sig-line"></div></div>
     <div class="sig-block"><label>Signature Référent tuteur CFA</label><div class="sig-line"></div></div>
   </div>
-  <button class="print-btn" onclick="window.print()">🖨️ Imprimer / Enregistrer en PDF</button>
+  <div style="display:flex;gap:12px;justify-content:center;margin:24px 0;flex-wrap:wrap;">
+    <button class="print-btn" onclick="window.print()">🖨️ Imprimer / PDF</button>
+    <button style="background:#7D3C98;color:white;border:none;padding:14px 32px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2);" onclick="sendEmail()">📧 Envoyer par e-mail</button>
+  </div>
 </div>
 <script>
-
+  function getRadio(name){const el=document.querySelector('input[name="'+name+'"]:checked');return el?el.value:'—';}
+  function getFieldVal(id){const el=document.getElementById(id);if(!el)return'—';return el.value||'—';}
   function getVal(name) {
     const el = document.querySelector('input[name="'+name+'"]:checked');
     return el ? parseInt(el.value) : null;
+  }
+  function sendEmail(){
+    const emails=[getFieldVal('email_apprenti'),getFieldVal('email_ma'),getFieldVal('email_cfa')].filter(e=>e&&e!=='—');
+    if(emails.length===0){alert('Veuillez renseigner au moins une adresse e-mail dans les coordonnées.');return;}
+    const apprenti=getFieldVal('apprenti'),entreprise=getFieldVal('entreprise'),dateV=getFieldVal('date_visite');
+    const subject=encodeURIComponent('BTS Photo — Visite 3 — '+apprenti+' — '+entreprise+' — '+dateV);
+    let body='BTS PHOTOGRAPHIE — COMPTE RENDU DE VISITE 3\n'+'='.repeat(50)+'\n\n';
+    body+='Apprenti·e : '+apprenti+'\nEntreprise : '+entreprise+'\nMA : '+getFieldVal('ma')+'\nCFA : '+getFieldVal('cfa_ref')+'\nDate : '+dateV+'\nAnnée : '+getFieldVal('annee')+'\n\n';
+    body+='ÉVALUATIONS (1=Non acquis, 2=En cours, 3=Acquis, 4=Maîtrise)\n'+'-'.repeat(40)+'\n';
+    [15,16,17,18,19].forEach(n=>{
+      body+='Q'+n+' — App:'+getRadio('q'+n+'_app')+' MA:'+getRadio('q'+n+'_ma')+' CFA:'+getRadio('q'+n+'_cfa')+'\n';
+      const note=getFieldVal('notes_'+n);if(note&&note!=='—')body+='  → '+note+'\n';
+    });
+    body+='\nSYNTHÈSE\n'+'-'.repeat(40)+'\n';
+    body+='Points forts : '+getFieldVal('strengths')+'\nPoints de vigilance : '+getFieldVal('risks')+'\nAjustements CFA : '+getFieldVal('cfa_actions')+'\nObservations : '+getFieldVal('notes_synth')+'\n';
+    body+='\n---\nDocument généré — BTS Photographie SUP-PHOTO\n';
+    const to=emails[0],cc=emails.slice(1).join(',');
+    let mailto='mailto:'+encodeURIComponent(to)+'?subject='+subject+'&body='+encodeURIComponent(body);
+    if(cc)mailto+='&cc='+encodeURIComponent(cc);
+    window.location.href=mailto;
   }
   function colorScore(val) {
     if(!val) return '#999';
