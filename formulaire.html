@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTS Photographie — Visite en entreprise</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;700;900&family=Barlow+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rouge: #E2001A;
+    --noir: #1A1A1A;
+    --blanc: #FFFFFF;
+    --creme: #F5F0E8;
+    --creme-fonce: #E8E1D4;
+    --gris: #888;
+    --gris-clair: #DDD;
+    --vert: #1A7A45;
+    --bleu: #1A5A8A;
+    --orange: #E88A00;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Barlow', sans-serif; background: var(--creme); color: var(--noir); min-height: 100vh; }
+
+  /* NAV */
+  nav { background: white; border-bottom: 1px solid var(--creme-fonce); position: sticky; top: 0; z-index: 100; }
+  .nav-inner { max-width: 1060px; margin: 0 auto; padding: 0 40px; height: 58px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-box { background: var(--rouge); color: white; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 13px; padding: 4px 7px; line-height: 1.1; letter-spacing: 0.02em; }
+  .logo-text { font-size: 12px; font-weight: 500; color: var(--gris); letter-spacing: 0.07em; text-transform: uppercase; }
+  .nav-right { display: flex; align-items: center; gap: 20px; }
+  .nav-visite { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gris); }
+  .role-tag { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border: 2px solid; }
+  .role-tag.cfa { border-color: var(--bleu); color: var(--bleu); }
+  .role-tag.ma  { border-color: var(--vert); color: var(--vert); }
+  .role-tag.app { border-color: var(--rouge); color: var(--rouge); }
+
+  /* BANDE NOIRE */
+  .info-band { background: var(--noir); }
+  .info-inner { max-width: 1060px; margin: 0 auto; padding: 0 40px; display: flex; align-items: stretch; }
+  .info-cell { padding: 14px 28px 14px 0; margin-right: 28px; border-right: 1px solid #333; }
+  .info-cell:last-child { border-right: none; margin-right: 0; }
+  .info-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #666; margin-bottom: 2px; }
+  .info-val { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 15px; color: white; }
+
+  /* BARRE ROUGE */
+  .prog-band { background: var(--rouge); padding: 10px 0; }
+  .prog-inner { max-width: 1060px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 8px; }
+  .p-step { display: flex; align-items: center; gap: 7px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,.45); }
+  .p-step.done, .p-step.mine { color: white; }
+  .p-dot { width: 20px; height: 20px; border-radius: 50%; background: rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; flex-shrink: 0; }
+  .p-step.done .p-dot { background: white; color: var(--rouge); }
+  .p-step.mine .p-dot { background: white; color: var(--rouge); box-shadow: 0 0 0 2px white, 0 0 0 4px var(--rouge); }
+  .p-line { flex: 1; max-width: 60px; height: 1px; background: rgba(255,255,255,.25); }
+  .p-statut { margin-left: auto; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.65); }
+
+  /* STATES */
+  .state-wrap { max-width: 1060px; margin: 80px auto; padding: 0 40px; display: flex; flex-direction: column; align-items: center; gap: 14px; color: var(--gris); }
+  .spinner { width: 36px; height: 36px; border: 3px solid var(--creme-fonce); border-top-color: var(--rouge); border-radius: 50%; animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* MAIN */
+  .main { max-width: 860px; margin: 0 auto; padding: 40px 40px 100px; }
+
+  /* SECTION CARD */
+  .s-card { margin-bottom: 28px; background: white; border: 1.5px solid var(--creme-fonce); }
+  .s-card.editable { border-color: var(--noir); border-width: 2px; }
+  .s-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; border-bottom: 1.5px solid var(--creme-fonce); }
+  .s-head.cfa { border-left: 4px solid var(--bleu); }
+  .s-head.ma  { border-left: 4px solid var(--vert); }
+  .s-head.app { border-left: 4px solid var(--rouge); }
+  .s-head-left { display: flex; align-items: center; gap: 14px; }
+  .s-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 36px; line-height: 1; color: var(--creme-fonce); letter-spacing: -0.02em; }
+  .s-role { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 18px; letter-spacing: 0.02em; text-transform: uppercase; line-height: 1; }
+  .s-sub { font-size: 12px; color: var(--gris); margin-top: 2px; }
+  .s-status { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border: 2px solid; }
+  .ss-ok  { border-color: var(--vert);  color: var(--vert); }
+  .ss-w   { border-color: var(--gris-clair); color: var(--gris); }
+  .ss-you { border-color: var(--rouge); color: var(--rouge); }
+  .s-body { padding: 26px 22px; }
+
+  /* FIELDS */
+  .f { margin-bottom: 20px; }
+  .f-lbl { display: block; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gris); margin-bottom: 6px; }
+  .f-lbl.req::after { content: ' *'; color: var(--rouge); }
+  textarea, input[type="text"] {
+    width: 100%; border: 1.5px solid var(--creme-fonce); padding: 10px 12px;
+    font-family: 'Barlow', sans-serif; font-size: 14px; color: var(--noir);
+    background: var(--creme); transition: border-color .15s; resize: vertical;
+  }
+  textarea:focus, input:focus { outline: none; border-color: var(--noir); background: white; }
+  textarea { min-height: 88px; }
+
+  /* COMPÉTENCES */
+  .comp-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--gris); margin: 26px 0 10px; display: flex; align-items: center; gap: 10px; }
+  .comp-title::after { content: ''; flex: 1; height: 1px; background: var(--creme-fonce); }
+  .rating-legend { display: flex; gap: 18px; margin-bottom: 10px; flex-wrap: wrap; }
+  .rl-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--gris); font-weight: 500; }
+  .rl-pip { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; border: 1.5px solid; font-family: 'Barlow Condensed', sans-serif; }
+  .cp-grid { border: 1px solid var(--creme-fonce); }
+  .cp-row { display: grid; grid-template-columns: 1fr auto; align-items: center; padding: 9px 13px; gap: 14px; border-bottom: 1px solid var(--creme-fonce); background: white; transition: background .1s; }
+  .cp-row:last-child { border-bottom: none; }
+  .cp-row:hover { background: var(--creme); }
+  .cp-code { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 12px; color: var(--rouge); letter-spacing: .03em; }
+  .cp-name { font-size: 13px; line-height: 1.3; }
+  .cp-btns { display: flex; gap: 3px; flex-shrink: 0; }
+  .rb { width: 31px; height: 31px; border: 1.5px solid var(--creme-fonce); background: white; cursor: pointer; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 900; color: var(--gris); transition: all .12s; display: flex; align-items: center; justify-content: center; }
+  .rb:hover:not(:disabled) { border-color: var(--noir); color: var(--noir); }
+  .rb.r1 { background: #FFF0F0; border-color: var(--rouge); color: var(--rouge); }
+  .rb.r2 { background: #FFF8EE; border-color: var(--orange); color: var(--orange); }
+  .rb.r3 { background: #F0FAF4; border-color: var(--vert); color: var(--vert); }
+  .rb.r4 { background: #F0F5FA; border-color: var(--bleu); color: var(--bleu); }
+  .rb:disabled { cursor: default; }
+  /* lecture comp */
+  .cpv { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; min-width: 80px; text-align: right; }
+
+  /* READ-ONLY */
+  .ro-blk { margin-bottom: 16px; }
+  .ro-lbl { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gris); margin-bottom: 4px; }
+  .ro-val { background: var(--creme); border: 1px solid var(--creme-fonce); padding: 10px 12px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; color: var(--noir); min-height: 40px; }
+  .ro-empty { font-style: italic; color: #bbb; }
+
+  /* SIGNATURE */
+  .sig-wrap { margin-top: 26px; background: var(--creme); border: 2px dashed var(--creme-fonce); padding: 18px 22px; }
+  .sig-wrap.signed { background: #F0FAF4; border-style: solid; border-color: var(--vert); }
+  .sig-lbl { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gris); margin-bottom: 6px; }
+  .sig-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 22px; }
+  .sig-date { font-size: 11px; color: var(--gris); margin-top: 2px; }
+
+  /* BANNER COMPLET */
+  .done-banner { background: var(--noir); color: white; padding: 18px 24px; margin-bottom: 28px; display: flex; align-items: center; gap: 14px; }
+  .done-banner strong { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 18px; letter-spacing: .03em; }
+  .done-banner p { font-size: 13px; color: #888; margin-top: 2px; }
+
+  /* ACTIONS BAR */
+  .act-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 2px solid var(--noir); padding: 14px 40px; display: flex; align-items: center; justify-content: space-between; z-index: 50; }
+  .act-info { font-size: 13px; color: var(--gris); font-weight: 500; }
+  .btn-save { background: var(--rouge); color: white; border: none; padding: 13px 32px; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; transition: background .15s, transform .1s; }
+  .btn-save:hover:not(:disabled) { background: #C0001A; transform: translateY(-1px); }
+  .btn-save:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+
+  /* TOAST */
+  .toast { position: fixed; top: 20px; right: 20px; padding: 12px 18px; font-size: 13px; font-weight: 700; z-index: 1000; transform: translateX(130%); transition: transform .25s; border-left: 4px solid; background: white; box-shadow: 0 4px 16px rgba(0,0,0,.1); max-width: 300px; }
+  .toast.show { transform: translateX(0); }
+  .toast.ok  { border-color: var(--vert);  color: var(--vert); }
+  .toast.err { border-color: var(--rouge); color: var(--rouge); }
+
+  @media (max-width: 640px) {
+    .nav-inner, .info-inner, .prog-inner, .main { padding-left: 16px; padding-right: 16px; }
+    .s-body { padding: 16px 14px; }
+    .act-bar { padding: 12px 16px; }
+    .cp-row { grid-template-columns: 1fr; }
+    .cp-btns { justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">
+      <div class="logo-box">SUP<br>PHOTO</div>
+      <span class="logo-text">Visites en entreprise</span>
+    </div>
+    <div class="nav-right">
+      <span class="nav-visite" id="navVisite">—</span>
+      <span class="role-tag" id="navBadge">—</span>
+    </div>
+  </div>
+</nav>
+
+<div class="info-band">
+  <div class="info-inner">
+    <div class="info-cell"><div class="info-lbl">Apprenti·e</div><div class="info-val" id="hNom">—</div></div>
+    <div class="info-cell"><div class="info-lbl">Entreprise</div><div class="info-val" id="hEntreprise">—</div></div>
+    <div class="info-cell"><div class="info-lbl">Maître d'Apprentissage</div><div class="info-val" id="hMA">—</div></div>
+    <div class="info-cell"><div class="info-lbl">Promotion</div><div class="info-val" id="hAnnee">—</div></div>
+  </div>
+</div>
+
+<div class="prog-band">
+  <div class="prog-inner">
+    <div class="p-step" id="ps-cfa"><div class="p-dot" id="pd-cfa">C</div><span>CFA</span></div>
+    <div class="p-line"></div>
+    <div class="p-step" id="ps-ma"><div class="p-dot" id="pd-ma">M</div><span>Maître d'App.</span></div>
+    <div class="p-line"></div>
+    <div class="p-step" id="ps-app"><div class="p-dot" id="pd-app">A</div><span>Apprenti·e</span></div>
+    <div class="p-statut" id="pStatut"></div>
+  </div>
+</div>
+
+<div id="loadingState">
+  <div class="state-wrap"><div class="spinner"></div><p>Chargement...</p></div>
+</div>
+
+<div id="errorState" style="display:none;">
+  <div class="state-wrap">
+    <div style="font-size:52px">🔒</div>
+    <strong style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;text-transform:uppercase;">Accès refusé</strong>
+    <p id="errorMsg" style="text-align:center">Lien invalide ou expiré.</p>
+  </div>
+</div>
+
+<div class="main" id="mainContent" style="display:none">
+
+  <div id="doneBanner" style="display:none" class="done-banner">
+    <div>
+      <strong>✅ Visite complète</strong>
+      <p>Les trois parties ont signé ce compte rendu.</p>
+    </div>
+  </div>
+
+  <div class="s-card" id="card-cfa">
+    <div class="s-head cfa">
+      <div class="s-head-left">
+        <div class="s-num">01</div>
+        <div><div class="s-role">Référent·e CFA</div><div class="s-sub">Évaluation pédagogique</div></div>
+      </div>
+      <span class="s-status ss-w" id="status-cfa">En attente</span>
+    </div>
+    <div class="s-body" id="body-cfa"></div>
+  </div>
+
+  <div class="s-card" id="card-ma">
+    <div class="s-head ma">
+      <div class="s-head-left">
+        <div class="s-num">02</div>
+        <div><div class="s-role">Maître d'Apprentissage</div><div class="s-sub">Évaluation en entreprise</div></div>
+      </div>
+      <span class="s-status ss-w" id="status-ma">En attente</span>
+    </div>
+    <div class="s-body" id="body-ma"></div>
+  </div>
+
+  <div class="s-card" id="card-app">
+    <div class="s-head app">
+      <div class="s-head-left">
+        <div class="s-num">03</div>
+        <div><div class="s-role">Apprenti·e</div><div class="s-sub">Auto-évaluation</div></div>
+      </div>
+      <span class="s-status ss-w" id="status-app">En attente</span>
+    </div>
+    <div class="s-body" id="body-app"></div>
+  </div>
+
+</div>
+
+<div class="act-bar" id="actBar" style="display:none">
+  <span class="act-info" id="actInfo">Remplissez votre section et signez</span>
+  <button class="btn-save" id="saveBtn" onclick="saveForm()">Sauvegarder et signer →</button>
+</div>
+
+<script>
+const READ_URL = 'https://campusdes11arts.app.n8n.cloud/webhook/bts-read';
+const SAVE_URL = 'https://campusdes11arts.app.n8n.cloud/webhook/bts-save';
+const q = new URLSearchParams(location.search);
+const ID=q.get('id')||'', VISITE=q.get('visite')||'1', ROLE=q.get('role')||'', TOKEN=q.get('token')||'';
+
+const COMP_CFA=[
+  {code:'C1',name:"Communiquer et s'informer dans un environnement professionnel"},
+  {code:'C2',name:"Lire, interpréter des images et évaluer la pertinence d'un projet"},
+  {code:'C3',name:"Choisir et organiser les moyens pour une prise de vue"},
+  {code:'C4',name:"Réaliser des prises de vues"},
+  {code:'C5',name:"Traiter les images photographiques"},
+  {code:'C6',name:"Gérer, conserver et archiver les photographies"},
+  {code:'C7',name:"Diffuser, reproduire et céder des photographies"},
+  {code:'C8',name:"Exercer une veille technologique"},
+];
+const COMP_MA=[
+  {code:'CP3.1',name:"Analyser la demande du client / prestataire"},
+  {code:'CP3.4',name:"Choisir et préparer le matériel"},
+  {code:'CP4.2',name:"Composer la prise de vue"},
+  {code:'CP4.3',name:"Construire l'éclairage et gérer la lumière"},
+  {code:'CP4.4',name:"Paramétrer l'appareil photographique"},
+  {code:'CP4.6',name:"Réaliser les prises de vues"},
+  {code:'CP4.8',name:"Regard critique sur les images"},
+  {code:'CP5.4',name:"Développer les images numériques natives"},
+  {code:'CP5.5',name:"Réaliser les corrections chromatiques"},
+  {code:'CP5.6',name:"Retoucher une image"},
+  {code:'CP1.1',name:"Communiquer et négocier en milieu professionnel"},
+  {code:'CP7.5',name:"Appliquer le cadre juridique de l'activité"},
+];
+
+function toast(m,t='ok'){const e=document.getElementById('toast');e.textContent=m;e.className='toast '+t+' show';setTimeout(()=>e.classList.remove('show'),3500);}
+function fmt(iso){if(!iso)return'';const d=new Date(iso);return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'})+' — '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}
+function parse(v){if(!v||v==='{}')return{};if(typeof v==='object')return v;try{return JSON.parse(v);}catch{return{};}}
+
+function updateProg(d){
+  ['cfa','ma','app'].forEach(r=>{
+    const ps=document.getElementById('ps-'+r),pd=document.getElementById('pd-'+r);
+    if(d['sig_'+r]){ps.classList.add('done');pd.textContent='✓';}
+    else if(r===ROLE) ps.classList.add('mine');
+  });
+  document.getElementById('pStatut').textContent=d.statut||'';
+  if(d.statut==='Complet') document.getElementById('doneBanner').style.display='flex';
+}
+
+function setStatus(role,sig){
+  const el=document.getElementById('status-'+role);
+  if(!el)return;
+  if(sig){el.textContent='✓ '+sig;el.className='s-status ss-ok';}
+  else if(role===ROLE){el.textContent='← Votre section';el.className='s-status ss-you';}
+  else{el.textContent='En attente';el.className='s-status ss-w';}
+}
+
+function roBlock(key,label,data){
+  const v=data[key];
+  return`<div class="ro-blk"><div class="ro-lbl">${label}</div><div class="ro-val">${v||'<span class="ro-empty">Non renseigné</span>'}</div></div>`;
+}
+
+const CFA_F=[['bilan_general','Bilan général'],['points_forts','Points forts'],['axes_amelioration',"Axes d'amélioration"],['objectifs_prochaine_visite','Objectifs prochaine visite'],['observations','Observations']];
+const MA_F=[['missions_confiees','Missions confiées'],['evolution_autonomie',"Évolution de l'autonomie"],['points_forts','Points forts'],['axes_amelioration',"Axes d'amélioration"],['integration_equipe',"Intégration dans l'équipe"],['observations','Observations']];
+const APP_F=[['missions_realisees','Missions réalisées'],['apprentissages',"Ce que j'ai appris"],['difficultes','Difficultés rencontrées'],['points_forts','Points forts'],['objectifs','Objectifs'],['satisfaction','Satisfaction générale']];
+
+function renderRO(data,role){
+  if(!data||!Object.keys(data).length)return'<p style="font-style:italic;color:#bbb;font-size:13px">Cette section n\'a pas encore été remplie.</p>';
+  const fields=role==='cfa'?CFA_F:role==='ma'?MA_F:APP_F;
+  let h=fields.map(([k,l])=>roBlock(k,l,data)).join('');
+  const comps=role==='cfa'?COMP_CFA:role==='ma'?COMP_MA:null;
+  const LV={1:'Non acquis',2:'En cours',3:'Acquis',4:'Maîtrisé'};
+  const COL={1:'#E2001A',2:'#E88A00',3:'#1A7A45',4:'#1A5A8A'};
+  if(comps&&data.competences){
+    h+=`<div class="comp-title">Évaluation des compétences</div><div class="cp-grid">`;
+    for(const c of comps){
+      const v=data.competences?.[c.code]||0;
+      h+=`<div class="cp-row"><div><div class="cp-code">${c.code}</div><div class="cp-name">${c.name}</div></div><div class="cpv" style="color:${v?COL[v]:'#ccc'}">${v?LV[v]:'—'}</div></div>`;
+    }
+    h+='</div>';
+  }
+  return h;
+}
+
+function compGrid(comps,d,gridId){
+  const c=d.competences||{};
+  let h=`<div class="comp-title">Évaluation des compétences</div>
+  <div class="rating-legend">
+    <div class="rl-item"><div class="rl-pip" style="border-color:#E2001A;color:#E2001A">1</div>Non acquis</div>
+    <div class="rl-item"><div class="rl-pip" style="border-color:#E88A00;color:#E88A00">2</div>En cours</div>
+    <div class="rl-item"><div class="rl-pip" style="border-color:#1A7A45;color:#1A7A45">3</div>Acquis</div>
+    <div class="rl-item"><div class="rl-pip" style="border-color:#1A5A8A;color:#1A5A8A">4</div>Maîtrisé</div>
+  </div>
+  <div class="cp-grid" id="${gridId}">`;
+  for(const cp of comps){
+    const v=c[cp.code]||0;
+    h+=`<div class="cp-row"><div><div class="cp-code">${cp.code}</div><div class="cp-name">${cp.name}</div></div><div class="cp-btns">${[1,2,3,4].map(n=>`<button type="button" class="rb${v===n?' r'+n:''}" data-c="${cp.code}" data-v="${n}" onclick="setR(this)">${n}</button>`).join('')}</div></div>`;
+  }
+  return h+'</div>';
+}
+
+function textarea(id,label,val,req=false){return`<div class="f"><label class="f-lbl${req?' req':''}">${label}</label><textarea id="${id}" placeholder="">${val||''}</textarea></div>`;}
+
+function editCFA(d){
+  return textarea('bilan_general','Bilan général de la période',d.bilan_general,true)
+    +textarea('points_forts','Points forts observés',d.points_forts,true)
+    +textarea('axes_amelioration',"Axes d'amélioration",d.axes_amelioration)
+    +textarea('objectifs_prochaine_visite','Objectifs prochaine visite',d.objectifs_prochaine_visite)
+    +textarea('observations','Observations',d.observations)
+    +compGrid(COMP_CFA,d,'cfaGrid');
+}
+function editMA(d){
+  return textarea('missions_confiees',"Missions confiées à l'apprenti·e",d.missions_confiees,true)
+    +textarea('evolution_autonomie',"Évolution de l'autonomie",d.evolution_autonomie,true)
+    +textarea('points_forts','Points forts',d.points_forts,true)
+    +textarea('axes_amelioration',"Axes d'amélioration",d.axes_amelioration)
+    +textarea('integration_equipe',"Intégration dans l'équipe",d.integration_equipe)
+    +textarea('observations','Observations',d.observations)
+    +compGrid(COMP_MA,d,'maGrid');
+}
+function editApp(d){
+  return textarea('missions_realisees','Missions réalisées depuis la dernière visite',d.missions_realisees,true)
+    +textarea('apprentissages',"Ce que j'ai appris",d.apprentissages,true)
+    +textarea('difficultes','Difficultés rencontrées',d.difficultes)
+    +textarea('points_forts','Mes points forts',d.points_forts)
+    +textarea('objectifs','Objectifs pour la suite',d.objectifs)
+    +textarea('satisfaction','Satisfaction générale',d.satisfaction);
+}
+
+function addSig(el,role,sig,sigDate,editable){
+  const div=document.createElement('div');
+  if(sig){
+    div.innerHTML=`<div class="sig-wrap signed"><div class="sig-lbl">Signé par</div><div class="sig-name">${sig}</div><div class="sig-date">${fmt(sigDate)}</div></div>`;
+  }else if(editable){
+    div.innerHTML=`<div class="sig-wrap"><div class="sig-lbl req" style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#888;margin-bottom:6px">Votre signature — nom complet *</div><input type="text" id="sig-${role}" placeholder="Prénom Nom" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;max-width:280px;background:white;border:1.5px solid #E8E1D4;padding:8px 12px;width:100%;max-width:300px"></div>`;
+  }else{
+    div.innerHTML=`<div class="sig-wrap" style="opacity:.4"><div class="sig-lbl">En attente de signature</div></div>`;
+  }
+  el.appendChild(div);
+}
+
+function setR(btn){
+  const v=parseInt(btn.dataset.v);
+  btn.closest('.cp-row').querySelectorAll('.rb').forEach(b=>{b.className='rb';if(parseInt(b.dataset.v)===v)b.classList.add('r'+v);});
+}
+function collectRatings(gid){
+  const r={};const g=document.getElementById(gid);if(!g)return r;
+  g.querySelectorAll('.rb.r1,.rb.r2,.rb.r3,.rb.r4').forEach(b=>{r[b.dataset.c]=parseInt(b.dataset.v);});
+  return r;
+}
+function collectData(){
+  const d={};
+  ['bilan_general','points_forts','axes_amelioration','objectifs_prochaine_visite','observations','missions_confiees','evolution_autonomie','integration_equipe','missions_realisees','apprentissages','difficultes','objectifs','satisfaction'].forEach(id=>{const el=document.getElementById(id);if(el&&el.value.trim())d[id]=el.value.trim();});
+  if(ROLE==='cfa')d.competences=collectRatings('cfaGrid');
+  if(ROLE==='ma') d.competences=collectRatings('maGrid');
+  return d;
+}
+
+function renderPage(d){
+  document.getElementById('hNom').textContent=d.prenom_nom||'—';
+  document.getElementById('hEntreprise').textContent=d.entreprise||'—';
+  document.getElementById('hMA').textContent=d.ma_nom||'—';
+  document.getElementById('hAnnee').textContent=d.annee||'—';
+  const RL={cfa:"Référent·e CFA",ma:"Maître d'App.",app:"Apprenti·e"};
+  const badge=document.getElementById('navBadge');
+  badge.textContent=RL[ROLE]||ROLE; badge.classList.add(ROLE);
+  document.getElementById('navVisite').textContent='Visite '+(d.numero_visite||VISITE);
+  updateProg(d);
+  setStatus('cfa',d.sig_cfa); setStatus('ma',d.sig_ma); setStatus('app',d.sig_app);
+
+  const dC=parse(d.data_cfa),dM=parse(d.data_ma),dA=parse(d.data_app);
+
+  const bCfa=document.getElementById('body-cfa');
+  if(ROLE==='cfa'&&!d.sig_cfa){bCfa.innerHTML=editCFA(dC);document.getElementById('card-cfa').classList.add('editable');document.getElementById('actBar').style.display='flex';}
+  else bCfa.innerHTML=renderRO(dC,'cfa');
+  addSig(bCfa,'cfa',d.sig_cfa,d.sig_cfa_date,ROLE==='cfa'&&!d.sig_cfa);
+
+  const bMa=document.getElementById('body-ma');
+  if(ROLE==='ma'&&!d.sig_ma){bMa.innerHTML=editMA(dM);document.getElementById('card-ma').classList.add('editable');document.getElementById('actBar').style.display='flex';}
+  else bMa.innerHTML=renderRO(dM,'ma');
+  addSig(bMa,'ma',d.sig_ma,d.sig_ma_date,ROLE==='ma'&&!d.sig_ma);
+
+  const bApp=document.getElementById('body-app');
+  if(ROLE==='app'&&!d.sig_app){bApp.innerHTML=editApp(dA);document.getElementById('card-app').classList.add('editable');document.getElementById('actBar').style.display='flex';}
+  else bApp.innerHTML=renderRO(dA,'app');
+  addSig(bApp,'app',d.sig_app,d.sig_app_date,ROLE==='app'&&!d.sig_app);
+
+  const already=(ROLE==='cfa'&&d.sig_cfa)||(ROLE==='ma'&&d.sig_ma)||(ROLE==='app'&&d.sig_app);
+  if(already){document.getElementById('actBar').style.display='flex';document.getElementById('saveBtn').style.display='none';document.getElementById('actInfo').textContent='Vous avez déjà signé ce formulaire.';}
+}
+
+async function saveForm(){
+  const sigEl=document.getElementById('sig-'+ROLE);
+  const sig=sigEl?sigEl.value.trim():'';
+  if(!sig){toast('Saisissez votre nom pour signer','err');sigEl&&sigEl.focus();return;}
+  const req={cfa:['bilan_general','points_forts'],ma:['missions_confiees','evolution_autonomie','points_forts'],app:['missions_realisees','apprentissages']};
+  for(const id of(req[ROLE]||[])){const el=document.getElementById(id);if(el&&!el.value.trim()){toast('Remplissez les champs obligatoires (*)','err');el.focus();el.style.borderColor='#E2001A';setTimeout(()=>el.style.borderColor='',3000);return;}}
+  const btn=document.getElementById('saveBtn');btn.disabled=true;btn.textContent='⏳ Enregistrement...';
+  try{
+    const res=await fetch(SAVE_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:ID,visite:VISITE,role:ROLE,token:TOKEN,data:collectData(),sig})});
+    const json=await res.json();
+    if(json.success){toast('Formulaire sauvegardé et signé ✓','ok');btn.textContent='✓ Signé';document.getElementById('actInfo').textContent='Statut : '+(json.statut||'Enregistré');setTimeout(()=>location.reload(),1800);}
+    else throw new Error(json.message||'Erreur serveur');
+  }catch(e){toast('Erreur : '+e.message,'err');btn.disabled=false;btn.textContent='Sauvegarder et signer →';}
+}
+
+async function init(){
+  if(!ID||!ROLE||!TOKEN){document.getElementById('loadingState').style.display='none';document.getElementById('errorState').style.display='block';document.getElementById('errorMsg').textContent="Paramètres manquants dans l'URL.";return;}
+  try{
+    const res=await fetch(`${READ_URL}?id=${ID}&visite=${VISITE}&role=${ROLE}&token=${TOKEN}`);
+    const json=await res.json();
+    if(!json.success)throw new Error(json.message||'Accès refusé');
+    document.getElementById('loadingState').style.display='none';
+    document.getElementById('mainContent').style.display='block';
+    renderPage(json);
+  }catch(e){document.getElementById('loadingState').style.display='none';document.getElementById('errorState').style.display='block';document.getElementById('errorMsg').textContent=e.message;}
+}
+init();
+</script>
+</body>
+</html>

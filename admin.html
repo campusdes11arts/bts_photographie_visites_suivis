@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUP-PHOTO — Admin CRE</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;700;900&family=Barlow+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --rouge:#E2001A; --noir:#1A1A1A; --blanc:#FFFFFF; --creme:#F5F0E8; --creme-fonce:#E8E1D4; --gris:#888; --gris-clair:#DDD; --vert:#1A7A45; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Barlow', sans-serif; background: var(--creme); color: var(--noir); min-height: 100vh; display: flex; flex-direction: column; }
+
+  /* NAV */
+  nav { background: white; border-bottom: 1px solid var(--creme-fonce); }
+  .nav-inner { max-width: 1060px; margin: 0 auto; padding: 0 40px; height: 58px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-box { background: var(--rouge); color: white; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 13px; padding: 4px 7px; line-height: 1.1; }
+  .logo-text { font-size: 12px; font-weight: 500; color: var(--gris); letter-spacing: .07em; text-transform: uppercase; }
+  .nav-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--rouge); border: 2px solid var(--rouge); padding: 4px 10px; }
+
+  /* HERO */
+  .hero { background: var(--noir); color: white; padding: 48px 40px 40px; }
+  .hero-inner { max-width: 1060px; margin: 0 auto; }
+  .hero-pre { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--rouge); display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .hero-pre::before { content: ''; display: block; width: 24px; height: 2px; background: var(--rouge); }
+  .hero h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 48px; line-height: .95; letter-spacing: -.01em; text-transform: uppercase; }
+  .hero h1 span { color: var(--rouge); }
+  .hero-desc { margin-top: 12px; font-size: 14px; color: #888; max-width: 480px; line-height: 1.5; }
+
+  /* MAIN */
+  main { max-width: 680px; margin: 40px auto; padding: 0 40px 60px; width: 100%; }
+
+  .form-card { background: white; border: 1.5px solid var(--creme-fonce); }
+  .form-section { padding: 24px 28px; border-bottom: 1.5px solid var(--creme-fonce); }
+  .form-section:last-child { border-bottom: none; }
+  .fsec-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--gris); display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+  .fsec-title::before { content: ''; display: block; width: 3px; height: 14px; background: var(--rouge); }
+
+  .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .f { margin-bottom: 16px; }
+  .f:last-child { margin-bottom: 0; }
+  .f-lbl { display: block; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gris); margin-bottom: 5px; }
+  .f-lbl.req::after { content: ' *'; color: var(--rouge); }
+  input[type="text"], input[type="email"], select {
+    width: 100%; border: 1.5px solid var(--creme-fonce); padding: 10px 12px;
+    font-family: 'Barlow', sans-serif; font-size: 14px; color: var(--noir);
+    background: var(--creme); transition: border-color .15s;
+  }
+  input:focus, select:focus { outline: none; border-color: var(--noir); background: white; }
+  select { cursor: pointer; }
+
+  .btn-submit { width: 100%; padding: 15px; background: var(--rouge); color: white; border: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 16px; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; transition: background .15s, transform .1s; margin-top: 24px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .btn-submit:hover:not(:disabled) { background: #C0001A; transform: translateY(-1px); }
+  .btn-submit:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+
+  /* RÉSULTAT */
+  .result { display: none; margin-top: 24px; border: 1.5px solid var(--vert); background: #F0FAF4; }
+  .result.show { display: block; }
+  .result-head { background: var(--vert); color: white; padding: 14px 22px; display: flex; align-items: center; gap: 10px; }
+  .result-head strong { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 17px; letter-spacing: .03em; text-transform: uppercase; }
+  .result-body { padding: 20px 22px; }
+  .result-id-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gris); margin-bottom: 4px; }
+  .result-id { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 28px; letter-spacing: .08em; color: var(--noir); display: inline-block; margin-bottom: 16px; background: white; padding: 6px 14px; border: 1px solid var(--creme-fonce); }
+  .result-desc { font-size: 13px; color: var(--gris); margin-bottom: 14px; }
+  .link-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--creme-fonce); }
+  .link-row:last-child { border-bottom: none; }
+  .link-role { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; min-width: 110px; }
+  .lk-cfa { color: #1A5A8A; }
+  .lk-ma  { color: var(--vert); }
+  .lk-app { color: var(--rouge); }
+  .link-url { flex: 1; font-size: 12px; color: #555; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .btn-copy { padding: 5px 12px; background: var(--noir); color: white; border: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; transition: background .12s; flex-shrink: 0; }
+  .btn-copy:hover { background: #333; }
+  .btn-copy.copied { background: var(--vert); }
+  .btn-reset { width: 100%; padding: 12px; background: var(--noir); color: white; border: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; margin-top: 16px; transition: background .12s; }
+  .btn-reset:hover { background: #333; }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(60px); background: var(--noir); color: white; padding: 12px 24px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: .04em; transition: transform .25s; z-index: 100; white-space: nowrap; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 520px) {
+    .nav-inner, .hero, main { padding-left: 16px; padding-right: 16px; }
+    .f-row { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">
+      <div class="logo-box">SUP<br>PHOTO</div>
+      <span class="logo-text">Visites en entreprise</span>
+    </div>
+    <span class="nav-label">Admin CRE</span>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-pre">Outil CRE — Alternance</div>
+    <h1>Créer un<br><span>dossier</span></h1>
+    <p class="hero-desc">Un lien personnalisé sera envoyé par email à l'apprenti·e, au maître d'apprentissage et au référent CFA.</p>
+  </div>
+</div>
+
+<main>
+  <div class="form-card">
+
+    <div class="form-section">
+      <div class="fsec-title">Apprenti·e</div>
+      <div class="f"><label class="f-lbl req">Nom et prénom</label><input type="text" id="prenom_nom" placeholder="Marie Dupont"></div>
+      <div class="f"><label class="f-lbl req">Email apprenti·e</label><input type="email" id="email_apprenti" placeholder="marie.dupont@email.fr"></div>
+    </div>
+
+    <div class="form-section">
+      <div class="fsec-title">Entreprise & Maître d'Apprentissage</div>
+      <div class="f"><label class="f-lbl req">Nom de l'entreprise</label><input type="text" id="entreprise" placeholder="Studio Photo Paris"></div>
+      <div class="f-row">
+        <div class="f"><label class="f-lbl req">Nom du MA</label><input type="text" id="ma_nom" placeholder="Jean Martin"></div>
+        <div class="f"><label class="f-lbl req">Email MA</label><input type="email" id="email_ma" placeholder="j.martin@studio.fr"></div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="fsec-title">CFA & Visite</div>
+      <div class="f"><label class="f-lbl req">Email référent·e CFA</label><input type="email" id="email_cfa" placeholder="referent@sup-photo.fr"></div>
+      <div class="f-row">
+        <div class="f"><label class="f-lbl req">Promotion</label><input type="text" id="annee" placeholder="2024-2026"></div>
+        <div class="f"><label class="f-lbl req">Numéro de visite</label>
+          <select id="numero_visite">
+            <option value="1">Visite 1 — Diagnostic</option>
+            <option value="2">Visite 2 — Progression</option>
+            <option value="3">Visite 3 — Consolidation</option>
+            <option value="4">Visite 4 — Bilan final</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="btn-submit" id="submitBtn" onclick="createDossier()">
+    Créer le dossier et envoyer les emails →
+  </button>
+
+  <div class="result" id="result">
+    <div class="result-head">
+      <span style="font-size:20px">✅</span>
+      <strong>Dossier créé</strong>
+    </div>
+    <div class="result-body">
+      <div class="result-id-label">Identifiant du dossier</div>
+      <div class="result-id" id="resultId">—</div>
+      <p class="result-desc">Les 3 emails ont été envoyés. Liens de secours ci-dessous :</p>
+      <div id="linksList"></div>
+      <button class="btn-reset" onclick="resetForm()">➕ Créer un autre dossier</button>
+    </div>
+  </div>
+</main>
+
+<script>
+const CREATE_URL = 'https://campusdes11arts.app.n8n.cloud/webhook/bts-create';
+
+function toast(m) {
+  const t = document.getElementById('toast');
+  t.textContent = m; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+async function createDossier() {
+  const ids = ['prenom_nom','email_apprenti','entreprise','ma_nom','email_ma','email_cfa','annee','numero_visite'];
+  const data = {}; let ok = true;
+  for (const id of ids) {
+    const el = document.getElementById(id);
+    const v = el.value.trim();
+    if (!v) { el.style.borderColor = '#E2001A'; ok = false; }
+    else { el.style.borderColor = ''; data[id] = v; }
+  }
+  if (!ok) { toast('Veuillez remplir tous les champs'); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.textContent = '⏳ Création en cours...';
+
+  try {
+    const res = await fetch(CREATE_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
+    const json = await res.json();
+    if (!json.success && !json.id) throw new Error(json.message || 'Erreur serveur');
+
+    document.getElementById('resultId').textContent = json.id || '—';
+    const links = json.liens || {};
+    document.getElementById('linksList').innerHTML = [
+      ['cfa','lk-cfa','🏫 Référent·e CFA', links.cfa||''],
+      ['ma', 'lk-ma', '🏢 Maître d\'App.',  links.ma||''],
+      ['app','lk-app','👤 Apprenti·e',       links.app||''],
+    ].map(([,cls,label,url]) => `
+      <div class="link-row">
+        <span class="link-role ${cls}">${label}</span>
+        <span class="link-url">${url||'—'}</span>
+        ${url ? `<button class="btn-copy" onclick="copyLink(this,'${url}')">Copier</button>` : ''}
+      </div>`).join('');
+
+    document.getElementById('result').classList.add('show');
+    btn.style.display = 'none';
+    document.getElementById('result').scrollIntoView({behavior:'smooth', block:'start'});
+
+  } catch(e) {
+    toast('Erreur : ' + e.message);
+    btn.disabled = false; btn.textContent = 'Créer le dossier et envoyer les emails →';
+  }
+}
+
+function copyLink(btn, url) {
+  navigator.clipboard.writeText(url).then(() => {
+    btn.textContent = '✓ Copié'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copier'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function resetForm() {
+  ['prenom_nom','email_apprenti','entreprise','ma_nom','email_ma','email_cfa','annee'].forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('numero_visite').value = '1';
+  document.getElementById('result').classList.remove('show');
+  const btn = document.getElementById('submitBtn');
+  btn.style.display = 'flex'; btn.disabled = false; btn.textContent = 'Créer le dossier et envoyer les emails →';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+</body>
+</html>
